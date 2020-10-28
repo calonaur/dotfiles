@@ -105,11 +105,50 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
 
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+
+  Plug 'lervag/wiki.vim'
+  let g:wiki_root = '~/notes/'
+
   Plug 'flazz/vim-colorschemes'
   Plug 'sheerun/vim-polyglot'
-  Plug 'lervag/wiki.vim'
   if has('nvim')
-    Plug 'neovim/nvim-lspconfig'
+    "Plug 'neovim/nvim-lspconfig' # TODO: uncomment this when 0.5 is released
   endif
+  call plug#end()
+
+  " junegunn/fzf
+  
+  command! -bang -nargs=* Todo
+    \ call fzf#vim#grep(
+    \   'rg --column --line-number --no-heading --color=always --smart-case -- "TODO|HACK|FIXME"'.shellescape(<q-args>), 1,
+    \   fzf#vim#with_preview(), <bang>0)
+
+  nmap <leader>td :Todo<CR>
+
+  " lervag/wiki.vim
+  let g:wiki_root = '~/notes'
+  let g:wiki_filetypes = ['md']
+  let g:wiki_link_extension = '.md'
+  let g:wiki_link_target_type = 'md'
+  let g:wiki_write_on_nav = 1
+
+  function WikiCreateMap(text) abort
+    return substitute(tolower(a:text), '\s\+', '-', 'g')
+  endfunction
+
+  let g:wiki_map_create_page = 'WikiCreateMap'
+  let g:wiki_map_link_create = 'WikiCreateMap'
+
+  nmap <leader>wl <plug>(wiki-journal-next)
+  nmap <leader>wh <plug>(wiki-journal-prev)
+  nmap <leader>wo <plug>(wiki-fzf-pages)
+  nmap <leader>wk <plug>(wiki-journal-toweek)
+  nmap <leader>wm <plug>(wiki-journal-tomonth)
+
+
+  " flazz/vim-colorschemes'
+  colorscheme gruvbox
+
+
 
 endif
