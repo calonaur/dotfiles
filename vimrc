@@ -105,12 +105,14 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
 
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
-
   Plug 'lervag/wiki.vim'
-  let g:wiki_root = '~/notes/'
-
   Plug 'flazz/vim-colorschemes'
   Plug 'sheerun/vim-polyglot'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
+  Plug 'vim-pandoc/vim-pandoc'
+  Plug 'vim-pandoc/vim-pandoc-syntax'
+
   if has('nvim')
     "Plug 'neovim/nvim-lspconfig' # TODO: uncomment this when 0.5 is released
   endif
@@ -145,9 +147,22 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   nmap <leader>wk <plug>(wiki-journal-toweek)
   nmap <leader>wm <plug>(wiki-journal-tomonth)
 
-
-  " flazz/vim-colorschemes'
+  " flazz/vim-colorschemes
   colorscheme gruvbox
+
+  " tpope/vim-fugitive
+  nmap <leader>gs :G<CR>
+  nmap <leader>gn :diffget //3<CR>
+  nmap <leader>gt :diffget //2<CR>
+
+  " vim-pandoc/vim-pandoc-syntax
+  let g:pandoc#syntax#conceal#urls = 1
+  let g:pandoc#modules#disabled = ["folding"]
+  let g:pandoc#formatting#mode = 'ha'
+  let g:pandoc_biblio_bibs = '$HOME/Documents/phd.bib'
+
+
+
 
 
 
