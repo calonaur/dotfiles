@@ -110,6 +110,7 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   Plug 'sheerun/vim-polyglot'
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-commentary'
   Plug 'vim-pandoc/vim-pandoc'
   Plug 'vim-pandoc/vim-pandoc-syntax'
 
@@ -159,7 +160,7 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   let g:pandoc#syntax#conceal#urls = 1
   let g:pandoc#modules#disabled = ["folding"]
   let g:pandoc#formatting#mode = 'ha'
-  let g:pandoc_biblio_bibs = '$HOME/Documents/phd.bib'
+  "let g:pandoc_biblio_bibs = '$HOME/Documents/phd.bib'
 
 
 
