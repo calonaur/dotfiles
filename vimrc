@@ -110,6 +110,7 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   Plug 'sheerun/vim-polyglot'
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
+  Plug 'mbbill/undotree'
   Plug 'tpope/vim-commentary'
   Plug 'vim-pandoc/vim-pandoc'
   Plug 'vim-pandoc/vim-pandoc-syntax'
@@ -120,13 +121,10 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   call plug#end()
 
   " junegunn/fzf
-  
-  command! -bang -nargs=* Todo
-    \ call fzf#vim#grep(
-    \   'rg --column --line-number --no-heading --color=always --smart-case -- "TODO|HACK|FIXME"'.shellescape(<q-args>), 1,
-    \   fzf#vim#with_preview(), <bang>0)
-
-  nmap <leader>td :Todo<CR>
+  nmap <leader>pt :Rg <C-R>=("TODO")<CR><CR>
+  nmap <leader>po :GFiles<CR>
+  nmap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
+  nmap <leader>ps :Rg<SPACE>
 
   " lervag/wiki.vim
   let g:wiki_root = '~/notes'
@@ -156,11 +154,17 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   nmap <leader>gn :diffget //3<CR>
   nmap <leader>gt :diffget //2<CR>
 
+  " mbbill/undotree
+  nmap <leader>u :UndotreeShow<CR>
+
   " vim-pandoc/vim-pandoc-syntax
   let g:pandoc#syntax#conceal#urls = 1
   let g:pandoc#modules#disabled = ["folding"]
   let g:pandoc#formatting#mode = 'ha'
   "let g:pandoc_biblio_bibs = '$HOME/Documents/phd.bib'
+
+  nmap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+  nmap <leader>f :resize 100<CR>
 
 
 
