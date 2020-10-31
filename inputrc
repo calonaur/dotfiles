@@ -1,0 +1,13 @@
+set editing-mode vi
+set keymap vi
+set show-mode-in-prompt on
+set bell-style none
+
+
+# https://unix.stackexchange.com/a/73523
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# https://stackoverflow.com/a/791800
+[[ $- == *i* ]] && stty -ixon
+
