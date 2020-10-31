@@ -10,3 +10,6 @@ ln -sf "$PWD/init.vim" "$HOME/.config/nvim/init.vim"
 # git
 ln -sf "$PWD/gitignore" "$HOME/.gitignore"
 ln -sf "$PWD/gitconfig" "$HOME/.gitconfig"
+
+# login
+ln -sf "$PWD/hushlogin" "$HOME/.hushlogin"
