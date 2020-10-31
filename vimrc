@@ -29,6 +29,7 @@ set foldmethod=manual
 set hidden
 " search as you type
 set incsearch
+set ignorecase
 " don't pass short messages
 set shortmess+=c
 " swapfiles are annoying
@@ -90,6 +91,9 @@ if has("autocmd")
 
   " buffer syntax types
   au bufnewfile,bufRead *bash* set ft=sh
+
+  " UK Spelling for markdown
+  autocmd FileType markdown setlocal spell spelllang=en_gb
 endif
 
 "" Plugins
@@ -114,6 +118,8 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   Plug 'tpope/vim-commentary'
   Plug 'vim-pandoc/vim-pandoc'
   Plug 'vim-pandoc/vim-pandoc-syntax'
+  Plug 'vim-pandoc/vim-pandoc-after'
+  Plug 'KeitaNakamura/tex-conceal.vim'
 
   if has('nvim')
     "Plug 'neovim/nvim-lspconfig' # TODO: uncomment this when 0.5 is released
@@ -127,7 +133,7 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   nmap <leader>ps :Rg<SPACE>
 
   " lervag/wiki.vim
-  let g:wiki_root = '~/notes'
+  let g:wiki_root = '~/Dropbox/notes/'
   let g:wiki_filetypes = ['md']
   let g:wiki_link_extension = '.md'
   let g:wiki_link_target_type = 'md'
@@ -145,6 +151,7 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   nmap <leader>wo <plug>(wiki-fzf-pages)
   nmap <leader>wk <plug>(wiki-journal-toweek)
   nmap <leader>wm <plug>(wiki-journal-tomonth)
+  nmap <leader>wd <plug>(wiki-page-delete)
 
   " flazz/vim-colorschemes
   colorscheme gruvbox
@@ -161,7 +168,7 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   let g:pandoc#syntax#conceal#urls = 1
   let g:pandoc#modules#disabled = ["folding"]
   let g:pandoc#formatting#mode = 'ha'
-  "let g:pandoc_biblio_bibs = '$HOME/Documents/phd.bib'
+  let g:pandoc_biblio_bibs = ["$HOME/Dropbox/notes/bibs/phd.md"]
 
   nmap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
   nmap <leader>f :resize 100<CR>
