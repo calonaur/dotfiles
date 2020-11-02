@@ -17,3 +17,6 @@ ln -sf "$PWD/inputrc" "$HOME/.inputrc"
 
 # bash
 ln -sf "$PWD/profile" "$HOME/.profile"
+
+# tmux
+ln -sf "$PWD/tmux.conf" "$HOME/.tmux.conf"
