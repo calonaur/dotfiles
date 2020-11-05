@@ -107,6 +107,7 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   Plug 'tpope/vim-sensible',
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/vim-easy-align'
   Plug 'lervag/wiki.vim'
   Plug 'flazz/vim-colorschemes'
   Plug 'sheerun/vim-polyglot'
@@ -118,9 +119,11 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   Plug 'vim-pandoc/vim-pandoc-syntax'
   Plug 'vim-pandoc/vim-pandoc-after'
   Plug 'KeitaNakamura/tex-conceal.vim'
+  Plug 'davidoc/taskpaper.vim'
 
   if has('nvim')
     "Plug 'neovim/nvim-lspconfig' # TODO: uncomment this when 0.5 is released
+    Plug 'hkupty/iron.nvim'
   endif
   call plug#end()
 
