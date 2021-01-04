@@ -6,7 +6,13 @@
 let skip_defaults_vim=1
 set nocompatible
 filetype on
-set nu
+
+" https://swordandsignals.com/2020/12/13/5-lines-in-vimrc.html
+set hlsearch    " highlight all search results
+set ignorecase  " do case insensitive search 
+set incsearch   " show incremental search results as you type
+set number      " display line number
+set noswapfile  " disable swap file
 
 " write files when changing buffer
 set autowrite
@@ -55,7 +61,9 @@ set ttyfast
 " inside voice
 set noerrorbells
 " enable 24-bit colour
-set termguicolors
+if exists('+termguicolors')
+  set termguicolors
+endif
 " reminder of the last line
 set wrap
 set linebreak
@@ -64,7 +72,9 @@ set colorcolumn=79
 highlight ColorColumn ctermbg=0
 set breakindent
 
-
+if v:version < 703
+  finish
+endif
 "" remaps & autocommands
 let mapleader = " "
 if has("autocmd")

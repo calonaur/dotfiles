@@ -1,5 +1,5 @@
 set editing-mode vi
-set keymap vi
+# set keymap vi
 set show-mode-in-prompt on
 set bell-style none
 
@@ -11,3 +11,9 @@ set bell-style none
 # https://stackoverflow.com/a/791800
 [[ $- == *i* ]] && stty -ixon
 
+# https://github.com/alacritty/alacritty/issues/302#issuecomment-623567424
+set vi-ins-mode-string \033[1;32m<(ins)>\033[0m \1\e[5 q\2
+set vi-cmd-mode-string \033[1;31m<(cmd)>\033[0m \1\e[1 q\2
+
+#set vi-ins-mode-string \1\033[1;32m\2INS\1\033[m\2
+#set vi-cmd-mode-string \1\033[1;31m\2CMD\1\033[m\2
