@@ -6,6 +6,7 @@
 let skip_defaults_vim=1
 set nocompatible
 filetype on
+set nu
 
 " write files when changing buffer
 set autowrite
@@ -27,6 +28,8 @@ set ignorecase
 set shortmess+=c
 " swapfiles are annoying
 set noswapfile
+" more prettier
+set conceallevel=2
 
 " command history
 set history=100
@@ -56,9 +59,10 @@ set termguicolors
 " reminder of the last line
 set wrap
 set linebreak
-set textwidth=79
+set textwidth=0
 set colorcolumn=79
 highlight ColorColumn ctermbg=0
+set breakindent
 
 
 "" remaps & autocommands
@@ -110,16 +114,16 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   Plug 'junegunn/vim-easy-align'
   Plug 'lervag/wiki.vim'
   Plug 'flazz/vim-colorschemes'
+  Plug 'godlygeek/tabular'
   Plug 'sheerun/vim-polyglot'
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
   Plug 'mbbill/undotree'
   Plug 'tpope/vim-commentary'
-  Plug 'vim-pandoc/vim-pandoc'
-  Plug 'vim-pandoc/vim-pandoc-syntax'
-  Plug 'vim-pandoc/vim-pandoc-after'
   Plug 'KeitaNakamura/tex-conceal.vim'
-  Plug 'davidoc/taskpaper.vim'
+  Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+  Plug 'tpope/vim-surround'
+
 
   if has('nvim')
     "Plug 'neovim/nvim-lspconfig' # TODO: uncomment this when 0.5 is released
@@ -128,34 +132,91 @@ if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
   call plug#end()
 
   " junegunn/fzf
-  nmap <leader>pt :Rg <C-R>=("TODO")<CR><CR>
+  nmap <leader>pt :Rg <C-R>=("TODO")<CR><CR> 
   nmap <leader>po :GFiles<CR>
   nmap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
   nmap <leader>ps :Rg<SPACE>
 
   " lervag/wiki.vim
-  let g:wiki_root = '~/Dropbox/notes/'
-  let g:wiki_filetypes = ['md']
-  let g:wiki_link_extension = '.md'
-  let g:wiki_link_target_type = 'md'
-  let g:wiki_write_on_nav = 1
-
   function WikiCreateMap(text) abort
     return substitute(tolower(a:text), '\s\+', '-', 'g')
   endfunction
 
-  let g:wiki_map_create_page = 'WikiCreateMap'
-  let g:wiki_map_link_create = 'WikiCreateMap'
+  function! WikiRoot()
+    let l:local = finddir('notes', ';./')
+    return !empty(l:local) ? l:local : '~/Sync/Notes/'
+  endfunction
 
+  let g:wiki_root = 'WikiRoot'
+  let g:wiki_map_create_page = 'WikiCreateMap'
+  let g:wiki_filetypes = ['md']
+  let g:wiki_link_target_type = 'wiki'
+  let g:wiki_write_on_nav = 1
+  let g:wiki_link_toggle_on_open = 0
+  let g:wiki_map_link_create = 'WikiCreateMap'
+  let g:wiki_template_title_month = '# %(month-name) %(year)'
+  let g:wiki_template_title_week = '# %(year),Week %(week)'
+
+  " g:wiki_list_todos[0]
+
+  " custom wiki.vim function
+  function! Todos() abort "{{{1
+    if !exists('*fzf#run')
+      echo 'fzf must be installed for this to work.'
+      return
+    endif
+
+    let l:todo_string = get(g:, 'wiki_list_todos', ['TODO', 'DONE'])[0]
+    let l:search =  'rg --line-number --no-heading --smart-case -- '
+          \ . l:todo_string
+          \ . ' | sed "s/:[[:space:]]*[*|-] ' . l:todo_string . '[:]* /: /g"'
+
+    call fzf#run(fzf#wrap({
+          \'source': l:search,
+          \'dir': wiki#get_root(),
+          \'sink': funcref('s:accept_todo')
+          \}))
+
+  endfunction
+
+  command! WikiFzfTodos call Todos()
+
+  function! s:accept_todo(input) abort 
+    let [l:file, l:lnum; _] = split(a:input, ':')
+    execute 'edit ' . l:file
+    execute l:lnum
+  endfunction
+
+  nnoremap <silent> <plug>(wiki-fzf-todos) :WikiFzfTodos<cr>
+
+  nmap <leader>wtd <plug>(wiki-fzf-todos)
   nmap <leader>wl <plug>(wiki-journal-next)
   nmap <leader>wh <plug>(wiki-journal-prev)
   nmap <leader>wo <plug>(wiki-fzf-pages)
-  nmap <leader>wk <plug>(wiki-journal-toweek)
+  nmap <leader>ws <plug>(wiki-journal-toweek)
   nmap <leader>wm <plug>(wiki-journal-tomonth)
   nmap <leader>wd <plug>(wiki-page-delete)
+  
+  let g:wiki_date_exe = 'gdate'
+  " let g:wiki_journal = {
+  "     \ 'frequency': 'weekly',
+  "     \ 'date_format': {
+  "     \   'weekly' : '%Y_w%V',
+  "     \ },
+  "     \}
+
+  " liuchengxu/vim-which-key
+  nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+
+  " plasticboy/vim-markdown
+  let g:vim_markdown_math = 1
+  let g:vim_markdown_edit_url_in = 'hsplit'
+  let g:vim_markdown_new_list_item_indent = 0 
+
 
   " flazz/vim-colorschemes
   colorscheme gruvbox
+  set background=dark
 
   " tpope/vim-fugitive
   nmap <leader>gs :G<CR>
